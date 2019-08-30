@@ -3,12 +3,12 @@
 ArrayList<Agent> agents;
 
 void setup() {
-  size(630, 480);
+  size(1280, 720);
   stroke(#FFFFFF);
   strokeWeight(5);
   agents = new ArrayList();
 
-  for (int i = 0; i<50; i++) {
+  for (int i = 0; i<200; i++) {
     agents.add(new Agent(random(width), random(height)));
   }
 }
@@ -19,4 +19,5 @@ void draw() {
     agents.get(i).update();
     agents.get(i).display();
   }
+  println(frameRate);
 }
