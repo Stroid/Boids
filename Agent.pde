@@ -45,46 +45,34 @@ class Agent {
   }
 
   void stering_behavior() {
-    ArrayList<PVector>separation_flock = new ArrayList();
-    ArrayList<PVector>alignment_flock = new ArrayList();
-    ArrayList<PVector>Cohesion_flock = new ArrayList();
+    PVector separation_force = new PVector();
+    PVector alignment_force = new PVector();
+    PVector cohesion_force = new PVector();
 
     for (int i = 0; i < agents.size(); i++) {
       Agent other_agent = agents.get(i);
+      
+      //Seperation
       if (this.pos.dist(other_agent.pos) < this.separationDistance) {
-        separation_flock.add(other_agent.pos);
+        separation_force.add(this.pos);
+        separation_force.sub(other_agent.pos);
       }
+      //Alignment
       if (this.pos.dist(other_agent.pos) < this.alignmentDistance) {
-        alignment_flock.add(other_agent.vel);
+        alignment_force.add(other_agent.vel);
       }
+      //Cohesion
       if (this.pos.dist(other_agent.pos) < this.cohesionDistance) {
-        Cohesion_flock.add(other_agent.pos);
+        cohesion_force.add(other_agent.pos);
+        cohesion_force.sub(this.pos);
       }
-    }
-
-    //Seperation
-    PVector separation_force = new PVector();
-    for (int i = 0; i < separation_flock.size(); i++) {
-      separation_force.add(this.pos);
-      separation_force.sub(separation_flock.get(i));
     }
     separation_force.limit(separationForce);
     addForce(separation_force);
-
-    //Alignment
-    PVector alignment_force = new PVector();
-    for (int i = 0; i < alignment_flock.size(); i++) {
-      alignment_force.add(alignment_flock.get(i));
-    }
+    
     alignment_force.limit(alignmentForce);
     addForce(alignment_force);
     
-    //Cohesion
-    PVector cohesion_force = new PVector();
-    for (int i = 0; i < Cohesion_flock.size(); i++) {
-      cohesion_force.add(Cohesion_flock.get(i));
-      cohesion_force.sub(this.pos);
-    }
     cohesion_force.limit(cohesionForce);
     addForce(cohesion_force);
   }
