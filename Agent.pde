@@ -39,12 +39,7 @@ class Agent{
     popMatrix();
   }
   
-  void stering_behavior(){
-    for(int i = 0; i < agents.size(); i++){
-      Agent other_agent = agents.get(i);
-    }
-  }
-  
+
   void edges(){
     //If agent travels outside the window, wrap adround to the outher side.
     float x = pos.x;

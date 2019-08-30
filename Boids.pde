@@ -1,4 +1,4 @@
-//Boids
+//Boids - Master
 
 ArrayList<Agent> agents;
 
