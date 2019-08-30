@@ -9,7 +9,7 @@ void setup() {
   strokeWeight(5);
   agents = new ArrayList();
   obstacles = new ArrayList();
-  for (int i = 0; i<200; i++) {
+  for (int i = 0; i<50; i++) {
     agents.add(new Agent(random(width), random(height)));
   }
   obstacles.add(new PVector(width/2, height/2));

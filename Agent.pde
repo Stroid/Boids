@@ -10,12 +10,12 @@ class Agent {
   float velocityLimit = 5;       // Max velocity per tick
   float separationDistance = 60; // Radius at which boids avoid others
   float alignmentDistance = 80;  // Radius at which boids align with others
-  float obstacleDistance = 80;   // Radius at witch boids avoid obsticles
-  float cohesionDistance = 180;  // Radius at which boids approach others
+  float obstacleDistance = 180;   // Radius at witch boids avoid obsticles
+  float cohesionDistance = 60;  // Radius at which boids approach others
   float separationForce = 0.15;  // Speed to avoid at
   float alignmentForce = 0.25;   // Speed to align with other boids
-  float cohesionForce = 0.075;   //0.1;   // Speed to move towards other boids
-  float obsticleForce = 0.5;     // Speed to avoid obsticle
+  float cohesionForce = 0.1;   //0.1;   // Speed to move towards other boids
+  float obstacleForce = 0.15;     // Speed to avoid obsticle
   Agent(float x, float y) {
     //Initialise the vectors
     pos = new PVector(x, y);
@@ -52,6 +52,7 @@ class Agent {
     PVector separation_force = new PVector();
     PVector alignment_force = new PVector();
     PVector cohesion_force = new PVector();
+    PVector obstacle_force = new PVector();
 
     //Stering behavior for other boids
     for (int i = 0; i < agents.size(); i++) {
@@ -71,7 +72,7 @@ class Agent {
           cohesion_force.add(other_agent.pos);
           cohesion_force.sub(this.pos);
         }
-        
+
         separation_force.limit(separationForce);
         addForce(separation_force);
 
@@ -83,8 +84,14 @@ class Agent {
       }
     }
     for (int i = 0; i < obstacles.size(); i++) {
-      
+      PVector obstacle = obstacles.get(i);
+      if (this.pos.dist(obstacle) < this.obstacleDistance) {
+        obstacle_force.add(this.pos);
+        obstacle_force.sub(obstacle);
+      }
     }
+    obstacle_force.limit(obstacleForce);
+    addForce(obstacle_force);
   }
   void edges() {
     //If agent travels outside the window, wrap adround to the outher side.
