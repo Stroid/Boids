@@ -8,7 +8,7 @@ void setup() {
   strokeWeight(5);
   agents = new ArrayList();
 
-  for (int i = 0; i<5; i++) {
+  for (int i = 0; i<50; i++) {
     agents.add(new Agent(random(width), random(height)));
   }
 }
