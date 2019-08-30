@@ -5,13 +5,13 @@ class Agent {
 
   float accelerationLimit = 1;   // Max acceleration per tick
   float velocityLimit = 5; // Max velocity per tick
-  float separationDistance = 20; // Radius at which boids avoid others
+  float separationDistance = 60; // Radius at which boids avoid others
   float alignmentDistance = 80; // Radius at which boids align with others
   float cohesionDistance = 180;  // Radius at which boids approach others
-  float separationForce = 0.10;  // Speed to avoid at
-  float alignmentForce = 0.10;   // Speed to align with other boids
-  float cohesionForce = 0.1;   // Speed to move towards other boids
-
+  float separationForce = 0.15;  // Speed to avoid at
+  float alignmentForce = 0.25;   // Speed to align with other boids
+  float cohesionForce = 0.075;//0.1;   // Speed to move towards other boids
+  
   Agent(float x, float y) {
     //Initialise the vectors
     pos = new PVector(x, y);
@@ -51,32 +51,33 @@ class Agent {
 
     for (int i = 0; i < agents.size(); i++) {
       Agent other_agent = agents.get(i);
-      
-      //Seperation
-      if (this.pos.dist(other_agent.pos) < this.separationDistance) {
-        separation_force.add(this.pos);
-        separation_force.sub(other_agent.pos);
-      }
-      //Alignment
-      if (this.pos.dist(other_agent.pos) < this.alignmentDistance) {
-        alignment_force.add(other_agent.vel);
-      }
-      //Cohesion
-      if (this.pos.dist(other_agent.pos) < this.cohesionDistance) {
-        cohesion_force.add(other_agent.pos);
-        cohesion_force.sub(this.pos);
+      if (!other_agent.equals(this)) {
+        //Seperation
+        if (this.pos.dist(other_agent.pos) < this.separationDistance) {
+          separation_force.add(this.pos);
+          separation_force.sub(other_agent.pos);
+        }
+        //Alignment
+        if (this.pos.dist(other_agent.pos) < this.alignmentDistance) {
+          alignment_force.add(other_agent.vel);
+        }
+        //Cohesion
+        if (this.pos.dist(other_agent.pos) < this.cohesionDistance) {
+          cohesion_force.add(other_agent.pos);
+          cohesion_force.sub(this.pos);
+        }
+
+        separation_force.limit(separationForce);
+        addForce(separation_force);
+
+        alignment_force.limit(alignmentForce);
+        addForce(alignment_force);
+
+        cohesion_force.limit(cohesionForce);
+        addForce(cohesion_force);
       }
     }
-    separation_force.limit(separationForce);
-    addForce(separation_force);
-    
-    alignment_force.limit(alignmentForce);
-    addForce(alignment_force);
-    
-    cohesion_force.limit(cohesionForce);
-    addForce(cohesion_force);
   }
-
   void edges() {
     //If agent travels outside the window, wrap adround to the outher side.
     float x = pos.x; 
