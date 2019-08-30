@@ -1,17 +1,21 @@
+// To do list...
+// *  Add obsticles
+
 class Agent {
   PVector pos; //Agent possition vector
   PVector vel; //Agent velocity vector
   PVector acc; //Agent acceleration vector
 
   float accelerationLimit = 1;   // Max acceleration per tick
-  float velocityLimit = 5; // Max velocity per tick
+  float velocityLimit = 5;       // Max velocity per tick
   float separationDistance = 60; // Radius at which boids avoid others
-  float alignmentDistance = 80; // Radius at which boids align with others
+  float alignmentDistance = 80;  // Radius at which boids align with others
+  float obstacleDistance = 80;   // Radius at witch boids avoid obsticles
   float cohesionDistance = 180;  // Radius at which boids approach others
   float separationForce = 0.15;  // Speed to avoid at
   float alignmentForce = 0.25;   // Speed to align with other boids
-  float cohesionForce = 0.075;//0.1;   // Speed to move towards other boids
-  
+  float cohesionForce = 0.075;   //0.1;   // Speed to move towards other boids
+  float obsticleForce = 0.5;     // Speed to avoid obsticle
   Agent(float x, float y) {
     //Initialise the vectors
     pos = new PVector(x, y);
@@ -49,6 +53,7 @@ class Agent {
     PVector alignment_force = new PVector();
     PVector cohesion_force = new PVector();
 
+    //Stering behavior for other boids
     for (int i = 0; i < agents.size(); i++) {
       Agent other_agent = agents.get(i);
       if (!other_agent.equals(this)) {
@@ -66,7 +71,7 @@ class Agent {
           cohesion_force.add(other_agent.pos);
           cohesion_force.sub(this.pos);
         }
-
+        
         separation_force.limit(separationForce);
         addForce(separation_force);
 
@@ -76,6 +81,9 @@ class Agent {
         cohesion_force.limit(cohesionForce);
         addForce(cohesion_force);
       }
+    }
+    for (int i = 0; i < obstacles.size(); i++) {
+      
     }
   }
   void edges() {
