@@ -10,12 +10,12 @@ class Agent {
   float velocityLimit = 5;       // Max velocity per tick
   float separationDistance = 60; // Radius at which boids avoid others
   float alignmentDistance = 80;  // Radius at which boids align with others
-  float obstacleDistance = 180;   // Radius at witch boids avoid obsticles
+  float obstacleDistance = 0;   // Radius at witch boids avoid obsticles
   float cohesionDistance = 60;  // Radius at which boids approach others
-  float separationForce = 0.15;  // Speed to avoid at
-  float alignmentForce = 0.25;   // Speed to align with other boids
-  float cohesionForce = 0.1;   //0.1;   // Speed to move towards other boids
-  float obstacleForce = 0.15;     // Speed to avoid obsticle
+  float separationForce = 0.05;  // Speed to avoid at
+  float alignmentForce = 0.15;   // Speed to align with other boids
+  float cohesionForce = 0.05;   //0.1;   // Speed to move towards other boids
+  float obstacleForce = 0;     // Speed to avoid obsticle
   Agent(float x, float y) {
     //Initialise the vectors
     pos = new PVector(x, y);
